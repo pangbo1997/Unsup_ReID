@@ -1,0 +1,164 @@
+2020-08-21 10:03:46,020 reid_baseline INFO: Using 1 GPUS
+2020-08-21 10:03:46,021 reid_baseline INFO: Namespace(config_file='configs/market.yml', opts=['MODEL.DEVICE_ID', "('4')", 'DATASETS.NAMES', "('market1501')", 'DATASETS.ROOT_DIR', "('data')", 'OUTPUT_DIR', "('/data/get_kill/ReID/ReID_Baseline/eval/marsket_lt_0.7')", 'MODEL.PRETRAIN_CHOICE', "('self')", 'TEST.WEIGHT', "('/data/get_kill/ReID/ReID_Baseline/logs/marsket_lt_0.7/resnet50_model_40.pth')"])
+2020-08-21 10:03:46,021 reid_baseline INFO: Loaded configuration file configs/market.yml
+2020-08-21 10:03:46,021 reid_baseline INFO: 
+MODEL:
+  PRETRAIN_CHOICE: 'imagenet'
+  PRETRAIN_PATH: '/data/get_kill/.cache/torch/checkpoints/resnet50-19c8e357.pth'
+  #PRETRAIN_CHOICE: 'self'
+  #PRETRAIN_PATH: '/data/get_kill/ReID/ReID_Baseline/logs/pretrained/resnet50_model_5.pth'
+  METRIC_LOSS_TYPE: 'triplet'
+  IF_LABELSMOOTH: 'on'
+  IF_WITH_CENTER: 'no'
+  LAMBDA_T: 0.5
+  LAMBDA_P: 0.3
+  LAMBDA_C: 0.05
+  RELIABLE_NUM: 7
+  LAMBDA_G: 0.5 
+  ALPHA: 1.75
+  EMBEDING_FEA_SIZE: 2048
+INPUT:
+  SIZE_TRAIN: [256, 128]
+  SIZE_TEST: [256, 128]
+  PROB: 0.5 # random horizontal flip
+  RE_PROB: 0.5 # random erasing
+  PADDING: 10
+
+DATASETS:
+  NAMES: ('market1501')
+
+DATALOADER:
+  SAMPLER: 'softmax_triplet'
+  NUM_INSTANCE: 4
+  NUM_WORKERS: 8
+
+SOLVER:
+  OPTIMIZER_NAME: 'SGD'
+  MAX_EPOCHS: 40
+  BASE_LR: 0.001
+
+  MOMENTUM: 0.9
+
+  CLUSTER_MARGIN: 0.3
+
+  CENTER_LR: 0.5
+  CENTER_LOSS_WEIGHT: 0.0005
+
+  RANGE_K: 2
+  RANGE_MARGIN: 0.3
+  RANGE_ALPHA: 0
+  RANGE_BETA: 1
+  RANGE_LOSS_WEIGHT: 1
+
+  BIAS_LR_FACTOR: 1
+  WEIGHT_DECAY: 0.0005
+  WEIGHT_DECAY_BIAS: 0.0005
+  IMS_PER_BATCH: 8
+
+  STEPS: [200]
+  GAMMA: 0.2
+
+  WARMUP_FACTOR: 0.01
+  WARMUP_ITERS: 0
+  WARMUP_METHOD: 'linear'
+
+  CHECKPOINT_PERIOD: 5
+  LOG_PERIOD: 240
+  EVAL_PERIOD: 40
+
+TEST:
+  IMS_PER_BATCH: 128
+  RE_RANKING: 'no'
+  WEIGHT: "path"
+  NECK_FEAT: 'after'
+  FEAT_NORM: 'yes'
+
+OUTPUT_DIR: "/data/get_kill/ReID/ReID_Baseline/results"
+
+
+
+2020-08-21 10:03:46,021 reid_baseline INFO: Running with config:
+DATALOADER:
+  NUM_INSTANCE: 4
+  NUM_WORKERS: 8
+  SAMPLER: softmax_triplet
+DATASETS:
+  IS_VIDEO: False
+  NAMES: market1501
+  ROOT_DIR: data
+INPUT:
+  PADDING: 10
+  PIXEL_MEAN: [0.485, 0.456, 0.406]
+  PIXEL_STD: [0.229, 0.224, 0.225]
+  PROB: 0.5
+  RE_PROB: 0.5
+  SIZE_TEST: [256, 128]
+  SIZE_TRAIN: [256, 128]
+MODEL:
+  ALPHA: 1.75
+  DEVICE: cuda
+  DEVICE_ID: 4
+  EMBEDING_FEA_SIZE: 2048
+  IF_LABELSMOOTH: on
+  IF_WITH_CENTER: no
+  LAMBDA_C: 0.05
+  LAMBDA_G: 0.5
+  LAMBDA_P: 0.3
+  LAMBDA_T: 0.5
+  LAST_STRIDE: 1
+  METRIC_LOSS_TYPE: triplet
+  NAME: resnet50
+  NECK: bnneck
+  PRETRAIN_CHOICE: self
+  PRETRAIN_PATH: /data/get_kill/.cache/torch/checkpoints/resnet50-19c8e357.pth
+  RELIABLE_NUM: 7
+OUTPUT_DIR: /data/get_kill/ReID/ReID_Baseline/eval/marsket_lt_0.7
+SOLVER:
+  BASE_LR: 0.001
+  BIAS_LR_FACTOR: 1
+  CENTER_LOSS_WEIGHT: 0.0005
+  CENTER_LR: 0.5
+  CHECKPOINT_PERIOD: 5
+  CLUSTER_MARGIN: 0.3
+  EVAL_PERIOD: 40
+  GAMMA: 0.2
+  IMS_PER_BATCH: 8
+  LOG_PERIOD: 240
+  MARGIN: 0.3
+  MAX_EPOCHS: 40
+  MOMENTUM: 0.9
+  OPTIMIZER_NAME: SGD
+  RANGE_ALPHA: 0
+  RANGE_BETA: 1
+  RANGE_K: 2
+  RANGE_LOSS_WEIGHT: 1
+  RANGE_MARGIN: 0.3
+  STEPS: (200,)
+  WARMUP_FACTOR: 0.01
+  WARMUP_ITERS: 0
+  WARMUP_METHOD: linear
+  WEIGHT_DECAY: 0.0005
+  WEIGHT_DECAY_BIAS: 0.0005
+TEST:
+  FEAT_NORM: yes
+  IMS_PER_BATCH: 128
+  NECK_FEAT: after
+  RE_RANKING: no
+  WEIGHT: /data/get_kill/ReID/ReID_Baseline/logs/marsket_lt_0.7/resnet50_model_40.pth
+=> Market1501 loaded
+Dataset statistics:
+  ----------------------------------------
+  subset   | # ids | # images | # cameras
+  ----------------------------------------
+  train    |   751 |    12936 |         6
+  query    |   750 |     3368 |         6
+  gallery  |   751 |    15913 |         6
+  ----------------------------------------
+embeding fea size:2048
+2020-08-21 10:04:19,011 reid_baseline.inference INFO: Enter inferencing
+Create evaluator
+2020-08-21 10:09:40,542 reid_baseline.inference INFO: Validation Results
+2020-08-21 10:09:40,543 reid_baseline.inference INFO: mAP: 47.0%
+2020-08-21 10:09:40,543 reid_baseline.inference INFO: CMC curve, Rank-1  :76.3%
+2020-08-21 10:09:40,543 reid_baseline.inference INFO: CMC curve, Rank-5  :86.8%
+2020-08-21 10:09:40,543 reid_baseline.inference INFO: CMC curve, Rank-10 :90.1%
